@@ -1,51 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
 import '../styles/css/Table.css';
 
-
 const Table = () => {
+    const [data, setData] = useState([]);
 
-    const books = [
-        {
-            title: 'Dune',
-            author: 'Frank Herbert',
-            year: 1965,
-            genre: 'Science Fiction',
-            pages: 412,
-            isbn: '9780441013593'
-        },
-        {
-            title: 'Neuromancer',
-            author: 'William Gibson',
-            year: 1984,
-            genre: 'Cyberpunk',
-            pages: 271,
-            isbn: '9780441569595'
-        }
-    ];
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = [
+                {
+                    título: 'Dune',
+                    autor: 'Frank Herbert',
+                    año: 1965,
+                    género: 'Ciencia Ficción',
+                    páginas: 412,
+                    isbn: '9780441013593',
+                },
+                {
+                    título: 'Neuromante',
+                    autor: 'William Gibson',
+                    año: 1984,
+                    género: 'Cyberpunk',
+                    páginas: 271,
+                    isbn: '9780441569595',
+                },
+            ];
+            setData(data);
+        };
+
+        fetchData();
+    }, []);
+
+    const columns = Array.from(
+        new Set(data.flatMap((item) => Object.keys(item)))
+    );
+
+    const formatColumnName = (name) => {
+        return name.charAt(0).toUpperCase() + name.slice(1);
+    };
 
     return (
         <div className="table-container">
             <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Year</th>
-                        <th>Genre</th>
-                        <th>Pages</th>
-                        <th>ISBN</th>
-                    </tr>
-                </thead>
+                <TableHeader columns={columns} formatColumnName={formatColumnName} />
                 <tbody>
-                    {books.map((book) => (
-                        <tr key={book.isbn}>
-                            <td>{book.title}</td>
-                            <td>{book.author}</td>
-                            <td>{book.year}</td>
-                            <td>{book.genre}</td>
-                            <td>{book.pages}</td>
-                            <td>{book.isbn}</td>
-                        </tr>
+                    {data.map((item, index) => (
+                        <TableRow key={index} item={item} columns={columns} />
                     ))}
                 </tbody>
             </table>
