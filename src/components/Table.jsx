@@ -1,44 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import '../styles/css/Table.css';
+import useBooksData from '../hooks/useBooksData';
 
 const Table = () => {
-    const [data, setData] = useState([]);
+    const { data, columns, loading } = useBooksData();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const data = [
-                {
-                    título: 'Dune',
-                    autor: 'Frank Herbert',
-                    año: 1965,
-                    género: 'Ciencia Ficción',
-                    páginas: 412,
-                    isbn: '9780441013593',
-                },
-                {
-                    título: 'Neuromante',
-                    autor: 'William Gibson',
-                    año: 1984,
-                    género: 'Cyberpunk',
-                    páginas: 271,
-                    isbn: '9780441569595',
-                },
-            ];
-            setData(data);
-        };
-
-        fetchData();
-    }, []);
-
-    const columns = Array.from(
-        new Set(data.flatMap((item) => Object.keys(item)))
-    );
 
     const formatColumnName = (name) => {
         return name.charAt(0).toUpperCase() + name.slice(1);
     };
+
+    if (loading) {
+        return <div>Cargando...</div>;
+    }
 
     return (
         <div className="table-container">
