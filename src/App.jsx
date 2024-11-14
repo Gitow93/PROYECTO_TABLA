@@ -1,6 +1,5 @@
 import React from 'react';
 import Table from './components/Table';
-// import books from './assets/books.json';
 
 function App() {
     return (

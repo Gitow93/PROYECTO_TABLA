@@ -4,7 +4,7 @@ const TableRow = ({ item, columns }) => (
     <tr>
         {columns.map((column) => (
             <td key={column}>
-                {item[column] !== undefined && item[column] !== null ? item[column] : 'N/A'}
+                {item[column] !== undefined && item[column] !== null ? item[column] : ''}
             </td>
         ))}
     </tr>
